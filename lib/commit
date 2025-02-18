@@ -1,0 +1,24 @@
+flutter localization => 1- add flutter_localization to dependencies : + intl : any == part to translation
+2- add generate : true to flutter: 
+3- flutter gen-l10n in commond line 
+//https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization
+
+
+
+
+
+
+
+
+
+
+
+provider statemangement => 
+1- class extends ChangeNotifier {
+    void changeLang (String newLang){
+        if (){}
+    }
+     notifyListeners();
+}
+
+2- wran void Myapp =>لو عندي بروفايدر واحد بس زي اللغة بس انما لو اللغة والمود يبقي مالتي بروفايدر ChangeNotifierProvider + في حالة واحدة لو الابلكيشن كلة هيتأثر ب تغير اللغة 
