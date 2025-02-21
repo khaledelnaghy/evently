@@ -1,20 +1,26 @@
+import 'package:evently/core/provider/event_list_provider.dart';
+import 'package:evently/core/provider/user_provider.dart';
 import 'package:evently/core/utils/app_assets.dart';
 import 'package:evently/core/utils/app_colors.dart';
 import 'package:evently/core/utils/app_style.dart';
+import 'package:evently/feature/add_event/data/model/event_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EventItemWidget extends StatelessWidget {
-  const EventItemWidget({super.key});
-
+  const EventItemWidget({super.key, required this.eventModel});
+  final EventModel eventModel;
   @override
   Widget build(BuildContext context) {
+     var userProvider = Provider.of<UserProvider>(context);
     var height = MediaQuery.of(context).size.height;
     var widht = MediaQuery.of(context).size.width;
+    var eventListProvider = Provider.of<EventListProvider>(context);
     return Container(
       height: height * 0.31,
       //  horizontal: widht * 0.03,
-      margin: EdgeInsets.symmetric(
-         vertical: height * 0.01),
+      margin: EdgeInsets.symmetric(vertical: height * 0.01),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
@@ -22,7 +28,7 @@ class EventItemWidget extends StatelessWidget {
           width: 2,
         ),
         image: DecorationImage(
-          image: AssetImage(AppAssets.birthdayImage),
+          image: AssetImage(eventModel.image),
           fit: BoxFit.fill,
         ),
       ),
@@ -43,11 +49,12 @@ class EventItemWidget extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "22",
+                  "${eventModel.dataTime.day}",
                   style: AppStyle.bold20Primary,
                 ),
                 Text(
-                  "Dec",
+                  DateFormat("MMM").format(eventModel.dataTime),
+                  // eventModel.dataTime.month.toString(),
                   style: AppStyle.bold20Primary,
                 ),
               ],
@@ -66,12 +73,21 @@ class EventItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "this is a birthday",
+                  eventModel.title,
                   style: AppStyle.bold14black,
                 ),
-                Image.asset(
-                  AppAssets.favouriteIcon,
-                  color: AppColors.primaryLight,
+                InkWell(
+                  onTap: () {
+                    //update Favorite
+                    eventListProvider.updateIsFavoriteEvent(eventModel , userProvider.currentUser!.id);
+                  },
+                  child: Image.asset(
+                     height:height*0.04,
+                    eventModel.isFavorite == true
+                        ? AppAssets.iconFavouriteSelected
+                        : AppAssets.iconFavourite,
+                    color: AppColors.primaryLight,
+                  ),
                 ),
               ],
             ),

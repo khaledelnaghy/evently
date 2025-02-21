@@ -1,5 +1,6 @@
 import 'package:evently/core/utils/app_assets.dart';
 import 'package:evently/core/utils/app_colors.dart';
+import 'package:evently/feature/add_event/view/add_event_view.dart';
 import 'package:evently/feature/favourite/presentation/view/favourite_view.dart';
 import 'package:evently/feature/home/presentation/view/home_view.dart';
 import 'package:evently/feature/map/presentation/view/map_view.dart';
@@ -16,7 +17,7 @@ class NavigationBarViewHome extends StatefulWidget {
 
 class _NavigationBarViewHomeState extends State<NavigationBarViewHome> {
   int selectedItem = 0;
-  List <Widget> tabs = [
+  List<Widget> tabs = [
     HomeView(),
     MapView(),
     FavouriteView(),
@@ -55,7 +56,7 @@ class _NavigationBarViewHomeState extends State<NavigationBarViewHome> {
               buildbottomNavigationBarItem(
                   iconName: AppAssets.favouriteIcon,
                   index: 2,
-                  iconSelectedName: AppAssets.selectedFavouriteIcon,
+                  iconSelectedName: AppAssets.iconFavourite,
                   label: AppLocalizations.of(context)!.favourite),
               buildbottomNavigationBarItem(
                   iconName: AppAssets.profileIcon,
@@ -68,7 +69,12 @@ class _NavigationBarViewHomeState extends State<NavigationBarViewHome> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //navigate to add even
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddEventView(),
+            ),
+          );
         },
         child: Icon(
           Icons.add,
@@ -77,7 +83,7 @@ class _NavigationBarViewHomeState extends State<NavigationBarViewHome> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-   body: tabs[selectedItem],
+      body: tabs[selectedItem],
     );
   }
 

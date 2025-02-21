@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "417697406670",
+    "project_id": "event-online-5c512",
+    "storage_bucket": "event-online-5c512.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417697406670:android:d13f007f39529936d07a9f",
+        "android_client_info": {
+          "package_name": "com.example.evently"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGr5oTaDQAcraQ9LivmQcUSWu7mjmGIC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

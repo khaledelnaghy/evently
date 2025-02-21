@@ -22,3 +22,39 @@ provider statemangement =>
 }
 
 2- wran void Myapp =>لو عندي بروفايدر واحد بس زي اللغة بس انما لو اللغة والمود يبقي مالتي بروفايدر ChangeNotifierProvider + في حالة واحدة لو الابلكيشن كلة هيتأثر ب تغير اللغة 
+
+
+
+
+// firebase Database 
+//steps الموقع
+1- create database 
+2- next 
+3- start in test mode + press create 
+4- add collection => start collection => name collection (collection Id ) ,
+
+
+
+
+
+
+
+
+// flutter pub add cloud_firestore => dependencies add to terminal 
+// لو عاوز اشتغل ان الداتا تكون اوف لاين تتخزن عندي في الجهاز هستخدم Access Data Offline 
+// لو عاوز اشتغل اوف لاين لازم اضبف السطر دا await FirebaseFirestore.instance.disableNetwork(); to main.dat
+//لو عاوز اخزن او اسجل داتا يبقي Writing Data
+//لو عاوز اعرض الداتا عندي اللي في الفايربيز في الاسكرينة Read data
+// 1- Read data => one Time 1- collection 2- .get 
+// 2- Read data => real time 1- collection 2- .snapshots
+
+
+
+
+//callBack بديل ل Future // في حالة ال success
+// one case =>  .timeOut ((){}); لو انا شغال اوف لاين هستخدم  or online => .then ((){});
+
+// في حالة ال fauiler => catchError                    // onError => لو عاوز اعرف مكان الايرور فين بالظبط 
+
+
+//Updating documents 

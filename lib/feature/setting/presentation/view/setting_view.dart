@@ -1,11 +1,14 @@
 import 'package:evently/core/provider/app_lang_provider.dart';
 import 'package:evently/core/provider/app_theme_provider.dart';
+import 'package:evently/core/provider/event_list_provider.dart';
+import 'package:evently/core/provider/user_provider.dart';
 import 'package:evently/core/utils/app_assets.dart';
 import 'package:evently/core/utils/app_colors.dart';
 import 'package:evently/core/utils/app_style.dart';
 import 'package:evently/core/widget/elevated_button_logout.dart';
 import 'package:evently/core/widget/lang_bottom_sheet.dart';
 import 'package:evently/core/widget/theme_bottom_sheet%20.dart';
+import 'package:evently/feature/auth/presentation/view/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +27,9 @@ class _SettingViewState extends State<SettingView> {
     var width = MediaQuery.of(context).size.width;
     var langProvider = Provider.of<AppLangProvider>(context);
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+    var eventListProvider = Provider.of<EventListProvider>(context);
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,11 +63,11 @@ class _SettingViewState extends State<SettingView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Route Academy",
+                        userProvider.currentUser!.name,
                         style: AppStyle.bold24white,
                       ),
                       Text(
-                        "route@gmail.com",
+                         userProvider.currentUser!.email,
                         style: AppStyle.meduim16white,
                       ),
                     ],
@@ -166,7 +172,16 @@ class _SettingViewState extends State<SettingView> {
               vertical: height * 0.04,
             ),
             child: ElevatedButtonLogout(
-              onPressed: (){},
+              onPressed: () {
+                //eventList is Empty
+                eventListProvider.favoriteEventList = [];
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginView(),
+                  ),
+                );
+              },
             ),
           ),
         ],

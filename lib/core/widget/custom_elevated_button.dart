@@ -1,8 +1,7 @@
 import 'package:evently/core/utils/app_colors.dart';
 import 'package:evently/core/utils/app_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+ 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton(
       {super.key,
