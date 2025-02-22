@@ -3,6 +3,7 @@ import 'package:evently/core/provider/user_provider.dart';
 import 'package:evently/core/utils/app_assets.dart';
 import 'package:evently/core/utils/app_colors.dart';
 import 'package:evently/core/utils/app_style.dart';
+import 'package:evently/feature/event_details/view/event_details_view.dart';
 import 'package:evently/feature/home/presentation/widget/event_item_widget.dart';
 import 'package:evently/feature/home/presentation/widget/tab_event_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +20,17 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-     var userProvider = Provider.of<UserProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     var evenListProvider = Provider.of<EventListProvider>(context);
-    
+
     evenListProvider.getEventNameList(context);
-    if (evenListProvider.eventList.isEmpty) {
+    if (userProvider.currentUser != null) {
       evenListProvider.getAllEvents(userProvider.currentUser!.id);
     }
+
+    // if (evenListProvider.eventList.isEmpty) {
+    //   evenListProvider.getAllEvents(userProvider.currentUser!.id);
+    // }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     // List<String> eventName = [
@@ -55,7 +60,7 @@ class _HomeViewState extends State<HomeView> {
                   style: AppStyle.regular14white,
                 ),
                 Text(
-                userProvider.currentUser!.name,
+                  userProvider.currentUser?.name ?? "User",
                   style: AppStyle.bold24white,
                 ),
               ],
@@ -121,7 +126,8 @@ class _HomeViewState extends State<HomeView> {
                   child: TabBar(
                     isScrollable: true,
                     onTap: (index) {
-                      evenListProvider.changeSelectedIndex(index , userProvider.currentUser!.id) ;
+                      evenListProvider.changeSelectedIndex(
+                          index, userProvider.currentUser!.id);
                     },
                     tabAlignment: TabAlignment.start,
                     indicatorColor: AppColors.transparentColor,
@@ -159,8 +165,21 @@ class _HomeViewState extends State<HomeView> {
                     )
                   : ListView.builder(
                       itemBuilder: (context, index) {
-                        return EventItemWidget(
-                          eventModel: evenListProvider.filterEventList[index],
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EventDetailsView(
+                                  eventModel:
+                                      evenListProvider.filterEventList[index],
+                                ),
+                              ),
+                            );
+                          },
+                          child: EventItemWidget(
+                            eventModel: evenListProvider.filterEventList[index],
+                          ),
                         );
                       },
                       itemCount: evenListProvider.filterEventList.length,

@@ -63,11 +63,11 @@ class _SettingViewState extends State<SettingView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        userProvider.currentUser!.name,
+                        userProvider.currentUser?.name ?? "User",
                         style: AppStyle.bold24white,
                       ),
                       Text(
-                         userProvider.currentUser!.email,
+                         userProvider.currentUser?.email ?? "email",
                         style: AppStyle.meduim16white,
                       ),
                     ],

@@ -7,12 +7,14 @@ import 'package:evently/core/utils/app_style.dart';
 import 'package:evently/core/widget/custom_elevated_button.dart';
 import 'package:evently/core/widget/custom_text_field.dart';
 import 'package:evently/core/widget/navigation_bar_view.dart';
+import 'package:evently/feature/add_event/data/model/my_user.dart';
 import 'package:evently/feature/auth/presentation/view/forget_password_view.dart';
 import 'package:evently/feature/auth/presentation/view/register_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatefulWidget {
@@ -28,6 +30,72 @@ class _LoginViewState extends State<LoginView> {
   var passwordController = TextEditingController(text: "123456");
 
   var formKey = GlobalKey<FormState>();
+
+  Future<UserCredential?> loginWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        DialogUtils.showMessage(
+          // ignore: use_build_context_synchronously
+          context: context,
+          message: "Error",
+          posActionName: "OK",
+        );
+        return null;
+      }
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser.authentication;
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      var userDoc = await FirebaseServices.readUserFromFireStore(
+          userCredential.user?.uid ?? "");
+      MyUser myUser;
+      if (userDoc != null) {
+        myUser = userDoc;
+      } else {
+        // إذا لم يكن المستخدم موجودًا، يتم إنشاؤه وإضافته إلى Firestore
+        myUser = MyUser(
+          id: userCredential.user?.uid ?? "",
+          name:
+              userCredential.additionalUserInfo!.profile?["name"] ?? "Unknown",
+          email: userCredential.additionalUserInfo!.profile?["email"] ?? "",
+        );
+        await FirebaseServices.addUserToFireStore(myUser);
+      }
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.updateUser(
+          myUser); // تأكد من أن `updateUser` تقوم بتحديث `notifyListeners();`
+           print("UserProvider updated: ${userProvider.currentUser?.name}");
+      DialogUtils.showMessage(
+        // ignore: use_build_context_synchronously
+        context: context,
+        message: "User created successfully",
+        posAction: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => NavigationBarViewHome(),
+            ),
+          );
+        },
+        posActionName: "OK",
+        title: "Success",
+      );
+      return userCredential;
+    } catch (e) {
+      DialogUtils.showMessage(
+        // ignore: use_build_context_synchronously
+        context: context,
+        title: "Faild",
+        message: e.toString(),
+        posActionName: "OK",
+      );
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +261,9 @@ class _LoginViewState extends State<LoginView> {
                   height: height * 0.02,
                 ),
                 CustomElevatedButton(
-                  onButtonClick: () {},
+                  onButtonClick: () {
+                    loginWithGoogle();
+                  },
                   text: AppLocalizations.of(context)!.login_with_google,
                   backGroundColor: AppColors.whiteColor,
                   prefixIconButtton: Image.asset(
@@ -235,10 +305,11 @@ class _LoginViewState extends State<LoginView> {
             posActionName: "OK",
             posAction: () {
               Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NavigationBarViewHome(),
-                  ),);
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NavigationBarViewHome(),
+                ),
+              );
             });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
