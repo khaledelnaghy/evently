@@ -1,6 +1,7 @@
- import 'package:evently/core/provider/app_lang_provider.dart';
+import 'package:evently/core/provider/app_lang_provider.dart';
 import 'package:evently/core/provider/app_theme_provider.dart';
 import 'package:evently/core/provider/event_list_provider.dart';
+import 'package:evently/core/provider/location_provider.dart';
 import 'package:evently/core/provider/user_provider.dart';
 import 'package:evently/core/theme/app_theme.dart';
 import 'package:evently/feature/auth/presentation/view/login_view.dart';
@@ -28,8 +29,11 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => EventListProvider(),
         ),
-           ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (context) => UserProvider(),
+        ),
+         ChangeNotifierProvider(
+          create: (context) => LocationProvider(),
         ),
       ],
       child: const Evently(),

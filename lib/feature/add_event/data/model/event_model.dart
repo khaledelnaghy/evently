@@ -8,6 +8,9 @@ class EventModel {
   DateTime dataTime;
   String time;
   bool isFavorite;
+  double? lang;
+  double? lat;
+  String? adress;
   EventModel({
     this.id = "",
     required this.title,
@@ -15,6 +18,9 @@ class EventModel {
     required this.image,
     required this.eventName,
     required this.dataTime,
+    this.adress,
+    this.lang,
+    this.lat,
     required this.time,
     this.isFavorite = false,
   });
@@ -27,9 +33,14 @@ class EventModel {
           title: data["title"] as String,
           image: data["image"] as String,
           eventName: data["eventName"],
-          dataTime: DateTime.fromMillisecondsSinceEpoch(data["dataTime"],),
+          dataTime: DateTime.fromMillisecondsSinceEpoch(
+            data["dataTime"],
+          ),
           description: data["description"] as String,
           isFavorite: data["isFavorite"] as bool,
+          lang: data["lang"] as double,
+          lat: data["lat"] as double,
+          adress: data["adress"] as String,
         );
 
   // object =>confirm to json
@@ -43,6 +54,9 @@ class EventModel {
       "dataTime": dataTime.millisecondsSinceEpoch,
       "time": time,
       "isFavorite": isFavorite,
+      "lang": lang,
+      "lat": lat,
+      "adress": adress,
     };
   }
 }

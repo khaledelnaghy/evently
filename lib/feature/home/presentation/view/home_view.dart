@@ -3,6 +3,7 @@ import 'package:evently/core/provider/user_provider.dart';
 import 'package:evently/core/utils/app_assets.dart';
 import 'package:evently/core/utils/app_colors.dart';
 import 'package:evently/core/utils/app_style.dart';
+import 'package:evently/feature/add_event/data/model/event_model.dart';
 import 'package:evently/feature/event_details/view/event_details_view.dart';
 import 'package:evently/feature/home/presentation/widget/event_item_widget.dart';
 import 'package:evently/feature/home/presentation/widget/tab_event_widget.dart';
@@ -11,8 +12,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
-
+  const HomeView({super.key, this.eventModel});
+  final EventModel? eventModel;
   @override
   State<HomeView> createState() => _HomeViewState();
 }

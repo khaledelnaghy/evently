@@ -114,4 +114,25 @@ class EventListProvider extends ChangeNotifier {
       getFilterEvent(uId);
     }
   }
+
+  Future<void> updateEvent(
+      {required EventModel eventModel, required String uid}) async {
+    var collection = FirebaseServices.getEventCollection(uid);
+    await collection
+        .doc(eventModel.id)
+        .update(
+          eventModel.toFireStore(),
+        )
+        .then((value) {
+      selectedIndex == 0 ? getAllEvents(uid) : getFilterEvent(uid);
+    });
+  }
+
+  Future<void> deleteEvent(
+      {required String eventModelId, required String uid}) async {
+    var collection = FirebaseServices.getEventCollection(uid);
+    await collection.doc(eventModelId).delete().then((value) {
+      selectedIndex == 0 ? getAllEvents(uid) : getFilterEvent(uid);
+    });
+  }
 }

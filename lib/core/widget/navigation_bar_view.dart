@@ -1,5 +1,6 @@
 import 'package:evently/core/utils/app_assets.dart';
 import 'package:evently/core/utils/app_colors.dart';
+import 'package:evently/feature/add_event/data/model/event_model.dart';
 import 'package:evently/feature/add_event/view/add_event_view.dart';
 import 'package:evently/feature/favourite/presentation/view/favourite_view.dart';
 import 'package:evently/feature/home/presentation/view/home_view.dart';
@@ -9,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavigationBarViewHome extends StatefulWidget {
-  const NavigationBarViewHome({super.key});
-
+  const NavigationBarViewHome({super.key , this.eventModel});
+final EventModel? eventModel;
   @override
   State<NavigationBarViewHome> createState() => _NavigationBarViewHomeState();
 }

@@ -13,6 +13,9 @@ class AppAssets {
    static const String iconLocation = "assets/icons/icon_location.png";
    static const String iconEventTime = "assets/icons/icon_event_time.png";
    static const String iconEventData = "assets/icons/icon_event_data.png";
+   static const String iconDelete = "assets/icons/icon_delete.png";
+ static const String iconEdit = "assets/icons/icon_edit.png";
+static const String iconClender = "assets/icons/icon_clender.png";
   static const String birthdayImage = "assets/images/birthday.png";
  static const String routeImage = "assets/images/route_image.png";
   static const String changeSetting = "assets/images/change-setting.png";
