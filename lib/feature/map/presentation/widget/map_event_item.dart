@@ -1,11 +1,9 @@
-import 'package:evently/core/provider/event_list_provider.dart';
-import 'package:evently/core/utils/app_assets.dart';
+ import 'package:evently/core/utils/app_assets.dart';
 import 'package:evently/core/utils/app_colors.dart';
 import 'package:evently/core/utils/app_style.dart';
 import 'package:evently/feature/add_event/data/model/event_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
+ 
 class MapEventItem extends StatelessWidget {
   const MapEventItem({super.key, this.eventModel});
   final EventModel? eventModel;
@@ -13,7 +11,7 @@ class MapEventItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    var eventListProvider = Provider.of<EventListProvider>(context);
+    // var eventListProvider = Provider.of<EventListProvider>(context);
     return Container(
       // height: height * 0.8,
       padding: EdgeInsets.symmetric(
